@@ -8,6 +8,8 @@ const { verifyIdToken } = require('../services/firebase');
 // ─── Mobile: exchange Firebase ID token for our JWT ─────────
 // POST /api/auth/verify-otp { id_token }
 router.post('/verify-otp', asyncHandler(async (req, res) => {
+  console.log("HEADERS:", req.headers);   // 🔥 ADD
+  console.log("BODY:", req.body);      
   const { id_token } = req.body || {};
   if (!id_token) return res.status(400).json({ error: 'id_token required' });
 

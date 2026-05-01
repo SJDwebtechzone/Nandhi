@@ -42,6 +42,7 @@ export function AuthProvider({ children }) {
         ]);
 
         if (token) {
+           setAuthToken(token); 
           // Try to refresh user from /me
           try {
             const u = await Auth.me();
@@ -76,7 +77,8 @@ export function AuthProvider({ children }) {
     // Confirms the code → Firebase signs the user in on-device
     const credential = await confirmation.confirm(code);
     const idToken    = await credential.user.getIdToken();
-
+ // 🔥 ADD THIS LINE
+  console.log("ID TOKEN:", idToken);
     // Exchange Firebase ID token → our backend JWT
     const { token, user: userFromApi } = await Auth.verifyOtp(idToken);
     await persistToken(token);

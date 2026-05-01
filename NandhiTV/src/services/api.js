@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const USE_LAN_IP   = false;
 const USE_PUBLIC   = false; // ← flip to true when sharing build with client
 const LAN_IP       = 'http://192.168.111.95:4000';
-const PUBLIC_URL   = 'https://YOUR-NGROK-URL.ngrok-free.app'; // ← paste here
+const PUBLIC_URL   = 'http://72.61.245.163:4000'; // ← paste here
 
 export const API_BASE_URL = USE_PUBLIC
   ? PUBLIC_URL
@@ -32,6 +32,7 @@ export const api = axios.create({
 // in memory. Any request after login gets `Authorization: Bearer <token>`.
 const TOKEN_STORAGE_KEY = '@nandhi_tv/user_token';
 let inMemoryToken = null;
+
 
 export function setAuthToken(token) {
   inMemoryToken = token || null;
