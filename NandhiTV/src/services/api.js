@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const USE_LAN_IP   = false;
 const USE_PUBLIC   = false; // ← flip to true when sharing build with client
 const LAN_IP       = 'http://192.168.111.95:4000';
-const PUBLIC_URL   = 'http://72.61.245.163:4000'; // ← paste here
+const PUBLIC_URL   = 'http://72.61.245.163:4001'; // ← paste here
 
 export const API_BASE_URL = USE_PUBLIC
   ? PUBLIC_URL
