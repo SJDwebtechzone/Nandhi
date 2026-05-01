@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //                                          deployed backend URL.
 // Production      -> https://api.nandhitv.com
 const USE_LAN_IP   = false;
-const USE_PUBLIC   = false; // ← flip to true when sharing build with client
+const USE_PUBLIC   =true; // ← flip to true when sharing build with client
 const LAN_IP       = 'http://192.168.111.95:4000';
 const PUBLIC_URL   = 'http://72.61.245.163:4001'; // ← paste here
 
