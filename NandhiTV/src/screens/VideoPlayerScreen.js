@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { View, Text, ScrollView, Share, TouchableOpacity, StyleSheet } from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '../theme/ThemeContext';
+import { Videos } from '../services/api';
 
 export default function VideoPlayerScreen({ route }) {
   const { colors } = useTheme();
@@ -10,11 +11,17 @@ export default function VideoPlayerScreen({ route }) {
 
   const { video } = route.params;
 
+  // Increment view count when video is opened
+  useEffect(() => {
+    Videos.byId(video.id).catch(() => {});
+  }, [video.id]);
+
   const onShare = async () => {
     await Share.share({
       message: `${video.title}\nhttps://www.youtube.com/watch?v=${video.youtube_id}`,
     });
   };
+  // ... rest stays the same
 
   return (
     <ScrollView style={styles.bg}>

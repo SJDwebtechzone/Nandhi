@@ -61,7 +61,7 @@ export default function PrivacyPolicyScreen() {
         {
           heading: '8. Children',
           body:
-            'Nandhi TV is a devotional platform intended for general audiences. We do not knowingly collect personal information from children under 13. If you believe a child has provided us information, please contact us and we will remove it.',
+            'Nandhi TV is a cultural & heritage platform intended for general audiences. We do not knowingly collect personal information from children under 13. If you believe a child has provided us information, please contact us and we will remove it.',
         },
         {
           heading: '9. Changes to This Policy',
@@ -71,7 +71,7 @@ export default function PrivacyPolicyScreen() {
         {
           heading: '10. Contact Us',
           body:
-            'For any privacy-related questions or requests, write to us at support@nandhitv.com.',
+            'For any privacy-related questions or requests, write to us at nandhihari@nandhitv.com.',
         },
       ]}
     />

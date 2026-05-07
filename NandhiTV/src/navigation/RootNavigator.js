@@ -18,6 +18,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
 import TermsScreen from '../screens/TermsScreen';
 import RefundPolicyScreen from '../screens/RefundPolicyScreen';
+import PaadalPetraScreen from '../screens/PaadalPetraScreen';
 
 import { useTheme } from '../theme/ThemeContext';
 import { useAuth } from '../auth/AuthContext';
@@ -79,6 +80,7 @@ export default function RootNavigator() {
       <Stack.Screen name="About"          component={AboutScreen}       options={{ title: 'About Us' }} />
       <Stack.Screen name="NgoActivities"  component={NgoActivitiesScreen}options={{ title: 'Uzhavara Pani' }} />
       <Stack.Screen name="Profile"        component={ProfileScreen}      options={{ title: 'Profile' }} />
+<Stack.Screen name="PaadalPetra" component={PaadalPetraScreen} options={{ title: '276 Paadal Petra Thalam' }} />
       {/* Reachable from profile menu if they want to complete it later */}
       <Stack.Screen name="ProfileSetup"   component={ProfileSetupScreen} options={{ title: 'Edit Profile' }} />
 

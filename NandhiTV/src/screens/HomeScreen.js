@@ -12,7 +12,8 @@ import HomeBanner from '../components/HomeBanner';
 import ThemeToggle from '../components/ThemeToggle';
 import { Live, Videos, Announcements } from '../services/api';
 import { useTheme } from '../theme/ThemeContext';
-
+const SAINT_LEFT  = require('../assets/saint_left.png');
+const SAINT_RIGHT = require('../assets/saint_right.png');
 // --- helpers ---
 function getGreeting() {
   const h = new Date().getHours();
@@ -112,16 +113,21 @@ export default function HomeScreen({ navigation }) {
         <ThemeToggle />
       </View>
 
-      {/* Greeting block */}
-      <View style={styles.greetBlock}>
-        <View style={styles.greetRow}>
-          <Icon name={greeting.icon} size={22} color={colors.gold} />
-          <Text style={styles.greetText}>  {greeting.time}</Text>
-        </View>
-        <Text style={styles.brand}>Nandhi TV</Text>
-        <Text style={styles.org}>Nandhi Cultural & Charitable Foundation</Text>
-        <Text style={styles.tagline}>Temples. Tradition. Devotion.</Text>
-      </View>
+     {/* Greeting block with flanking saint images */}
+<View style={styles.greetOuter}>
+<Image source={SAINT_LEFT} style={[styles.saintImg, { width: 70, height: 110, marginTop: 12 }]} resizeMode="contain" /> 
+ <View style={styles.greetBlock}>
+    <View style={styles.greetRow}>
+      <Icon name={greeting.icon} size={22} color={colors.gold} />
+      <Text style={styles.greetText}>  {greeting.time}</Text>
+    </View>
+<Text style={styles.brand}>Nandhi TV<Text style={{ fontSize: 30, lineHeight: 30, verticalAlign: 'top' }}>™</Text></Text>  
+  <Text style={styles.org}>A unit of Nandhi Cultural & Charitable Foundation (Regd)</Text>
+    <Text style={styles.tagline}>Temples. Tradition. Devotion.</Text>
+  </View>
+
+  <Image source={SAINT_RIGHT} style={styles.saintImg} resizeMode="contain" />
+</View>
 
       {/* Search bar */}
       <View style={styles.searchWrap}>
@@ -144,6 +150,30 @@ export default function HomeScreen({ navigation }) {
 
       {/* Hero banner carousel */}
       <HomeBanner onPress={onBannerPress} />
+      {/* Content Highlights */}
+{/* Content Highlights */}
+<View style={styles.highlightSection}>
+  <View style={styles.highlightHeader}>
+    <View style={styles.highlightLine} />
+    <Text style={styles.highlightTitle}>✦  CONTENT HIGHLIGHTS  ✦</Text>
+    <View style={styles.highlightLine} />
+  </View>
+  <View style={styles.highlightGrid}>
+    {[
+      { icon: 'music',         title: 'CARNATIC MUSIC\nCONCERTS',         desc: 'Live & recorded concerts by leading vidwans, emerging artists and music institutions.' },
+      { icon: 'bank',          title: 'TEMPLE & HERITAGE\nCOVERAGE',       desc: 'Coverage of 108 Divya Desams, 276 Paadal Petra Sthalams, temple rituals and festivals.' },
+      { icon: 'hands-pray',    title: 'DEVOTIONAL &\nSPIRITUAL PROGRAMS', desc: 'Discourses, upanyasams, bhajans, bhakti music and programs that nourish the mind and soul.' },
+      { icon: 'microphone',    title: 'ARTISTS & TALENT\nPLATFORM',        desc: 'A platform for vidwans, young talents and upcoming artistes to showcase their art globally.' },
+      { icon: 'video-vintage', title: 'CULTURAL\nDOCUMENTARIES',           desc: 'Documentaries on music, culture, traditions and heritage of Bharat.' },
+    ].map((item, i) => (
+      <View key={i} style={styles.highlightCard}>
+        <Icon name={item.icon} size={32} color="#7B2D00" />
+        <Text style={styles.highlightCardTitle}>{item.title}</Text>
+        <Text style={styles.highlightCardDesc} numberOfLines={5}>{item.desc}</Text>
+      </View>
+    ))}
+  </View>
+</View>
 
       <LiveBanner live={live} onPress={() => navigation.navigate('Tabs', { screen: 'Live' })} />
 
@@ -180,8 +210,8 @@ export default function HomeScreen({ navigation }) {
           onPress={() => navigation.navigate('Music')} />
         <QuickAction styles={styles} colors={colors} icon="hand-heart"    label="Uzhavara Pani"
           onPress={() => navigation.navigate('NgoActivities')} />
-        <QuickAction styles={styles} colors={colors} icon="information"   label="About Us"
-          onPress={() => navigation.navigate('About')} />
+       <QuickAction styles={styles} colors={colors} emoji="🛕" label="276 Paadal Petra Thalam"
+  onPress={() => navigation.navigate('PaadalPetra')} />
       </View>
 
       {/* Donate CTA */}
@@ -265,11 +295,14 @@ export default function HomeScreen({ navigation }) {
   );
 }
 
-function QuickAction({ styles, colors, icon, label, onPress }) {
+function QuickAction({ styles, colors, icon, label, onPress, emoji }) {
   return (
     <TouchableOpacity style={styles.qa} onPress={onPress} activeOpacity={0.8}>
       <View style={styles.qaIconWrap}>
-        <Icon name={icon} size={26} color={colors.saffron} />
+        {emoji
+          ? <Text style={{ fontSize: 24 }}>{emoji}</Text>
+          : <Icon name={icon} size={26} color={colors.saffron} />
+        }
       </View>
       <Text style={styles.qaLabel}>{label}</Text>
     </TouchableOpacity>
@@ -288,12 +321,23 @@ const makeStyles = (colors) => StyleSheet.create({
   },
 
   // greeting block
-  greetBlock: {
-    paddingHorizontal: 16,
-    paddingTop: 4,
-    paddingBottom: 6,
-    alignItems: 'center',
-  },
+// greeting block
+greetOuter: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingHorizontal: 8,
+  paddingTop: 4,
+  paddingBottom: 6,
+},
+saintImg: {
+  width: 54,
+  height: 90,
+},
+greetBlock: {
+  flex: 1,
+  paddingHorizontal: 6,
+  alignItems: 'center',
+},
   greetRow: { flexDirection: 'row', alignItems: 'center' },
   greetText: { fontSize: 13, color: colors.textMuted, fontWeight: '600' },
   brand: {
@@ -303,6 +347,68 @@ const makeStyles = (colors) => StyleSheet.create({
     marginTop: 6,
     letterSpacing: 1,
   },
+  // content highlights
+highlightSection: {
+  marginTop: 12,
+  backgroundColor: '#FEF6E4',
+  paddingVertical: 16,
+  borderTopWidth: 1,
+  borderBottomWidth: 1,
+  borderColor: '#D4A84B',
+},
+highlightHeader: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingHorizontal: 16,
+  marginBottom: 16,
+},
+highlightLine: {
+  flex: 1,
+  height: 1,
+  backgroundColor: '#D4A84B',
+},
+highlightTitle: {
+  fontSize: 13,
+  fontWeight: '800',
+  color: '#2D5A1B',
+  marginHorizontal: 10,
+  letterSpacing: 1,
+},
+
+highlightGrid: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  paddingHorizontal: 10,
+  justifyContent: 'center',
+  gap: 8,
+},
+highlightCard: {
+  width: '30%',
+  backgroundColor: '#FEF6E4',
+  borderWidth: 1,
+  borderColor: '#D4A84B',
+  borderRadius: 12,
+  padding: 8,
+  alignItems: 'center',
+},
+highlightCardDesc: {
+  fontSize: 10,
+  color: '#5A3A1A',
+  textAlign: 'center',
+  lineHeight: 14,
+  numberOfLines: 4,
+},
+highlightCardTitle: {
+  fontSize: 10,
+  fontWeight: '800',
+  color: '#7B2D00',
+  textAlign: 'center',
+  marginTop: 8,
+  marginBottom: 6,
+  letterSpacing: 0.5,
+  lineHeight: 15,
+},
+
   org: {
     fontSize: 12,
     color: colors.textMuted,
