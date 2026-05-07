@@ -29,12 +29,26 @@ export default function AboutScreen() {
 
   if (!info) return <View style={styles.bg} />;
 
+  // Support both the admin schema (title/body/mission/vision/contact_address/top-level socials)
+  // and the older keys (foundation_name/foundation_about/mission_statement/vision_statement/address/social_links).
+  const heading = info.title || info.foundation_name || 'About Us';
+  const aboutBody = info.body || info.foundation_about;
+  const mission = info.mission || info.mission_statement;
+  const vision = info.vision || info.vision_statement;
+  const address = info.contact_address || info.address;
+
   const social = info.social_links || {};
+  const youtube   = info.youtube   || social.youtube;
+  const facebook  = info.facebook  || social.facebook;
+  const instagram = info.instagram || social.instagram;
+  const twitter   = info.twitter   || social.twitter;
+  const website   = info.website   || social.website;
+  const whatsapp  = social.whatsapp;
 
   return (
     <ScrollView style={styles.bg} contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
-      <Text style={styles.heading}>{info.foundation_name}</Text>
-      {!!info.foundation_about && <Text style={styles.body}>{info.foundation_about}</Text>}
+      <Text style={styles.heading}>{heading}</Text>
+      {!!aboutBody && <Text style={styles.body}>{aboutBody}</Text>}
 
       {!!info.founder_name && (
         <View style={styles.founderCard}>
@@ -49,27 +63,29 @@ export default function AboutScreen() {
         </View>
       )}
 
-      {!!info.mission_statement && (
-        <Block title="Our Mission" text={info.mission_statement} icon="target" />
+      {!!mission && (
+        <Block title="Our Mission" text={mission} icon="target" />
       )}
-      {!!info.vision_statement && (
-        <Block title="Our Vision"  text={info.vision_statement}  icon="eye-outline" />
+      {!!vision && (
+        <Block title="Our Vision"  text={vision}  icon="eye-outline" />
       )}
 
-      {(info.contact_email || info.contact_phone || info.address) && (
+      {(info.contact_email || info.contact_phone || address) && (
         <View style={styles.contact}>
           <Text style={styles.blockTitle}>Contact</Text>
           {!!info.contact_email && <Text style={styles.contactRow}>✉️ {info.contact_email}</Text>}
           {!!info.contact_phone && <Text style={styles.contactRow}>📞 {info.contact_phone}</Text>}
-          {!!info.address && <Text style={styles.contactRow}>📍 {info.address}</Text>}
+          {!!address            && <Text style={styles.contactRow}>📍 {address}</Text>}
         </View>
       )}
 
       <View style={styles.socialRow}>
-        {social.youtube && <Social icon="youtube" url={social.youtube} />}
-        {social.facebook && <Social icon="facebook" url={social.facebook} />}
-        {social.instagram && <Social icon="instagram" url={social.instagram} />}
-        {social.whatsapp && <Social icon="whatsapp" url={social.whatsapp} />}
+        {youtube   && <Social icon="youtube"   url={youtube} />}
+        {facebook  && <Social icon="facebook"  url={facebook} />}
+        {instagram && <Social icon="instagram" url={instagram} />}
+        {twitter   && <Social icon="twitter"   url={twitter} />}
+        {whatsapp  && <Social icon="whatsapp"  url={whatsapp} />}
+        {website   && <Social icon="web"       url={website} />}
       </View>
     </ScrollView>
   );

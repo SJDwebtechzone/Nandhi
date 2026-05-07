@@ -115,7 +115,9 @@ export default function HomeScreen({ navigation }) {
 
      {/* Greeting block with flanking saint images */}
 <View style={styles.greetOuter}>
-<Image source={SAINT_LEFT} style={[styles.saintImg, { width: 70, height: 110, marginTop: 12 }]} resizeMode="contain" /> 
+<View style={styles.saintCircle}>
+  <Image source={SAINT_RIGHT} style={styles.saintImgFill} resizeMode="contain" />
+</View>
  <View style={styles.greetBlock}>
     <View style={styles.greetRow}>
       <Icon name={greeting.icon} size={22} color={colors.gold} />
@@ -126,7 +128,9 @@ export default function HomeScreen({ navigation }) {
     <Text style={styles.tagline}>Temples. Tradition. Devotion.</Text>
   </View>
 
-  <Image source={SAINT_RIGHT} style={styles.saintImg} resizeMode="contain" />
+  <View style={styles.saintCircle}>
+    <Image source={SAINT_LEFT} style={styles.saintImgFill} resizeMode="cover" />
+  </View>
 </View>
 
       {/* Search bar */}
@@ -167,7 +171,7 @@ export default function HomeScreen({ navigation }) {
       { icon: 'video-vintage', title: 'CULTURAL\nDOCUMENTARIES',           desc: 'Documentaries on music, culture, traditions and heritage of Bharat.' },
     ].map((item, i) => (
       <View key={i} style={styles.highlightCard}>
-        <Icon name={item.icon} size={32} color="#7B2D00" />
+        <Icon name={item.icon} size={32} color={colors.saffronDark} />
         <Text style={styles.highlightCardTitle}>{item.title}</Text>
         <Text style={styles.highlightCardDesc} numberOfLines={5}>{item.desc}</Text>
       </View>
@@ -329,10 +333,17 @@ greetOuter: {
   paddingTop: 4,
   paddingBottom: 6,
 },
-saintImg: {
-  width: 54,
-  height: 90,
+// Both saints rendered as identical circular avatars on the same line.
+saintCircle: {
+  width: 64,
+  height: 64,
+  borderRadius: 32,
+  overflow: 'hidden',
+  backgroundColor: colors.cream,
+  borderWidth: 2,
+  borderColor: colors.saffron,
 },
+saintImgFill: { width: '100%', height: '100%' },
 greetBlock: {
   flex: 1,
   paddingHorizontal: 6,
@@ -350,11 +361,11 @@ greetBlock: {
   // content highlights
 highlightSection: {
   marginTop: 12,
-  backgroundColor: '#FEF6E4',
+  backgroundColor: colors.cream,
   paddingVertical: 16,
   borderTopWidth: 1,
   borderBottomWidth: 1,
-  borderColor: '#D4A84B',
+  borderColor: colors.gold,
 },
 highlightHeader: {
   flexDirection: 'row',
@@ -365,12 +376,12 @@ highlightHeader: {
 highlightLine: {
   flex: 1,
   height: 1,
-  backgroundColor: '#D4A84B',
+  backgroundColor: colors.gold,
 },
 highlightTitle: {
   fontSize: 13,
   fontWeight: '800',
-  color: '#2D5A1B',
+  color: colors.saffronDark,
   marginHorizontal: 10,
   letterSpacing: 1,
 },
@@ -384,16 +395,16 @@ highlightGrid: {
 },
 highlightCard: {
   width: '30%',
-  backgroundColor: '#FEF6E4',
+  backgroundColor: colors.card,
   borderWidth: 1,
-  borderColor: '#D4A84B',
+  borderColor: colors.gold,
   borderRadius: 12,
   padding: 8,
   alignItems: 'center',
 },
 highlightCardDesc: {
   fontSize: 10,
-  color: '#5A3A1A',
+  color: colors.textMuted,
   textAlign: 'center',
   lineHeight: 14,
   numberOfLines: 4,
@@ -401,7 +412,7 @@ highlightCardDesc: {
 highlightCardTitle: {
   fontSize: 10,
   fontWeight: '800',
-  color: '#7B2D00',
+  color: colors.saffronDark,
   textAlign: 'center',
   marginTop: 8,
   marginBottom: 6,
