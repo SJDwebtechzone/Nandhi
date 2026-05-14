@@ -3,52 +3,78 @@ const bcrypt = require('bcryptjs');
 const db = require('../db/pool');
 const { asyncHandler } = require('../middleware/error.middleware');
 const { requireAuth, signToken } = require('../middleware/auth.middleware');
-const { verifyIdToken } = require('../services/firebase');
+const { sendOtp: twilioSendOtp, checkOtp: twilioCheckOtp } = require('../services/twilio');
 
-// ─── Mobile: exchange Firebase ID token for our JWT ─────────
-// POST /api/auth/verify-otp { id_token }
-router.post('/verify-otp', asyncHandler(async (req, res) => {
-  console.log("HEADERS:", req.headers);   // 🔥 ADD
-  console.log("BODY:", req.body);      
-  const { id_token } = req.body || {};
-  if (!id_token) return res.status(400).json({ error: 'id_token required' });
+// Normalise to E.164 e.g. "9876543210" or "+91 98765 43210" -> "+919876543210".
+// Assumes Indian country code when no prefix is supplied.
+function normalisePhone(raw) {
+  if (!raw) return null;
+  const cleaned = String(raw).replace(/[\s\-()]/g, '');
+  if (cleaned.startsWith('+')) return cleaned;
+  if (/^\d{10}$/.test(cleaned)) return '+91' + cleaned;
+  return cleaned;
+}
 
-  let decoded;
+// ─── Mobile: send OTP via Twilio Verify ─────────────────────
+// POST /api/auth/send-otp { phone }
+router.post('/send-otp', asyncHandler(async (req, res) => {
+  const phone = normalisePhone(req.body?.phone);
+  if (!phone || !/^\+\d{8,15}$/.test(phone)) {
+    return res.status(400).json({ error: 'Valid phone number required (E.164)' });
+  }
   try {
-    decoded = await verifyIdToken(id_token);
+    const verification = await twilioSendOtp(phone);
+    res.json({ ok: true, status: verification.status });
   } catch (e) {
-    console.error('[verify-otp] Firebase token verification failed:', e.code || '', e.message);
-    return res.status(401).json({ error: 'Invalid or expired Firebase token', detail: e.message });
+    console.error('[send-otp] Twilio error:', e.code || '', e.message);
+    // 60200 = invalid parameter; 60410 = max attempts; 60203 = max send attempts
+    const status = (e.status && e.status < 600) ? e.status : 502;
+    return res.status(status).json({
+      error: 'Could not send OTP',
+      detail: e.message,
+      code: e.code || null,
+    });
+  }
+}));
+
+// ─── Mobile: verify Twilio OTP and exchange for our JWT ─────
+// POST /api/auth/verify-otp { phone, code }
+router.post('/verify-otp', asyncHandler(async (req, res) => {
+  const phone = normalisePhone(req.body?.phone);
+  const code  = (req.body?.code || '').toString().trim();
+
+  if (!phone) return res.status(400).json({ error: 'phone required' });
+  if (!/^\d{4,8}$/.test(code)) return res.status(400).json({ error: 'code required' });
+
+  let check;
+  try {
+    check = await twilioCheckOtp(phone, code);
+  } catch (e) {
+    console.error('[verify-otp] Twilio check error:', e.code || '', e.message);
+    return res.status(401).json({ error: 'OTP verification failed', detail: e.message });
   }
 
-  const firebaseUid = decoded.uid;
-  const phone = decoded.phone_number || null;
+  if (check.status !== 'approved') {
+    return res.status(401).json({ error: 'Invalid or expired OTP' });
+  }
 
-  // Upsert user by firebase_uid (primary) or phone (fallback)
+  // Upsert user by phone
   let { rows } = await db.query(
     `SELECT id, phone, name, email, city, role, profile_complete
-     FROM users WHERE firebase_uid = $1 OR (phone IS NOT NULL AND phone = $2)
-     LIMIT 1`,
-    [firebaseUid, phone]
+     FROM users WHERE phone = $1 LIMIT 1`,
+    [phone]
   );
 
   let user;
   if (rows[0]) {
     user = rows[0];
-    // Make sure firebase_uid + phone are stored
-    await db.query(
-      `UPDATE users SET firebase_uid = COALESCE($1, firebase_uid),
-                        phone        = COALESCE($2, phone),
-                        updated_at   = NOW()
-       WHERE id = $3`,
-      [firebaseUid, phone, user.id]
-    );
+    await db.query(`UPDATE users SET updated_at = NOW() WHERE id = $1`, [user.id]);
   } else {
     const ins = await db.query(
-      `INSERT INTO users (firebase_uid, phone, role, profile_complete)
-       VALUES ($1, $2, 'user', FALSE)
+      `INSERT INTO users (phone, role, profile_complete)
+       VALUES ($1, 'user', FALSE)
        RETURNING id, phone, name, email, city, role, profile_complete`,
-      [firebaseUid, phone]
+      [phone]
     );
     user = ins.rows[0];
   }

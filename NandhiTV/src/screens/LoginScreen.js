@@ -18,7 +18,6 @@ export default function LoginScreen() {
   const [step, setStep] = useState('phone');  // 'phone' | 'otp'
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
-  const [confirmation, setConfirmation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
 
@@ -41,14 +40,14 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      const conf = await sendOtp(`${COUNTRY_CODE}${phone}`);
-      setConfirmation(conf);
+      await sendOtp(`${COUNTRY_CODE}${phone}`);
       setStep('otp');
       setCooldown(30);
       // Auto-focus OTP field after a beat
       setTimeout(() => otpInputRef.current?.focus(), 150);
     } catch (e) {
-      Alert.alert('Could not send OTP', e?.message || 'Please try again.');
+      const msg = e?.response?.data?.error || e?.message || 'Please try again.';
+      Alert.alert('Could not send OTP', msg);
     } finally {
       setLoading(false);
     }
@@ -61,10 +60,11 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      await verifyOtp(confirmation, otp);
+      await verifyOtp(`${COUNTRY_CODE}${phone}`, otp);
       // AuthContext flips status → signedIn, navigator will switch away automatically.
     } catch (e) {
-      Alert.alert('Verification failed', e?.message || 'The code is invalid or expired.');
+      const msg = e?.response?.data?.error || e?.message || 'The code is invalid or expired.';
+      Alert.alert('Verification failed', msg);
     } finally {
       setLoading(false);
     }
@@ -79,7 +79,6 @@ export default function LoginScreen() {
   const onChangeNumber = () => {
     setStep('phone');
     setOtp('');
-    setConfirmation(null);
   };
 
   const onSkip = async () => {

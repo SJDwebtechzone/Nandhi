@@ -57,11 +57,14 @@ api.interceptors.request.use((cfg) => {
   return cfg;
 });
 
-// -------- Auth ----------
+// -------- Auth (Twilio Verify OTP) ----------
 export const Auth = {
-  // Exchange a Firebase ID token (from phone OTP) for our JWT + user record
-  verifyOtp: (idToken) =>
-    api.post('/auth/verify-otp', { id_token: idToken }).then((r) => r.data),
+  // Backend asks Twilio to send the SMS code to this E.164 phone (e.g. "+919...")
+  sendOtp:   (phone) =>
+    api.post('/auth/send-otp', { phone }).then((r) => r.data),
+  // Backend asks Twilio to verify the code and returns our JWT + user record
+  verifyOtp: (phone, code) =>
+    api.post('/auth/verify-otp', { phone, code }).then((r) => r.data),
   me:       () => api.get('/auth/me').then((r) => r.data.user),
   profile:  (payload) => api.put('/auth/profile', payload).then((r) => r.data.user),
   deleteAccount: () => api.delete('/auth/account').then((r) => r.data),

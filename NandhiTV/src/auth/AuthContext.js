@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import auth from '@react-native-firebase/auth';
 import { Auth, setAuthToken, loadStoredToken, persistToken } from '../services/api';
 
 /**
@@ -17,9 +16,9 @@ const AuthContext = createContext({
   user: null,                 // { id, phone, name, email, profile_complete, ... }
   isLoggedIn: false,
   isGuest: false,
-  // Firebase OTP
-  sendOtp:     async (_phone) => {},    // returns confirmation object
-  verifyOtp:   async (_confirmation, _code) => {}, // confirms OTP → signs in
+  // Twilio OTP (delivered by our backend)
+  sendOtp:     async (_phoneE164) => {},
+  verifyOtp:   async (_phoneE164, _code) => {},
   // Profile
   updateProfile: async (_payload) => {},
   // Session
@@ -66,21 +65,15 @@ export function AuthProvider({ children }) {
     })();
   }, []);
 
-  // --- Firebase Phone OTP ---
+  // --- Twilio Phone OTP (via our backend) ---
+  // phoneE164 example: '+919876543210'
   const sendOtp = useCallback(async (phoneE164) => {
-    // phoneE164 example: '+919876543210'
-    const confirmation = await auth().signInWithPhoneNumber(phoneE164);
-    return confirmation; // must be passed back to verifyOtp
+    await Auth.sendOtp(phoneE164);
+    return phoneE164; // pass back to verifyOtp so the screen knows what to verify
   }, []);
 
-  const verifyOtp = useCallback(async (confirmation, code) => {
-    // Confirms the code → Firebase signs the user in on-device
-    const credential = await confirmation.confirm(code);
-    const idToken    = await credential.user.getIdToken();
- // 🔥 ADD THIS LINE
-  console.log("ID TOKEN:", idToken);
-    // Exchange Firebase ID token → our backend JWT
-    const { token, user: userFromApi } = await Auth.verifyOtp(idToken);
+  const verifyOtp = useCallback(async (phoneE164, code) => {
+    const { token, user: userFromApi } = await Auth.verifyOtp(phoneE164, code);
     await persistToken(token);
     setAuthToken(token);
     setUser(userFromApi);
@@ -110,7 +103,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signOut = useCallback(async () => {
-    try { await auth().signOut(); } catch (e) { /* ignore */ }
     await persistToken(null);
     setAuthToken(null);
     await AsyncStorage.removeItem(GUEST_FLAG_KEY);
