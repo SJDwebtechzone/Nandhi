@@ -91,6 +91,7 @@ export default function AboutScreen() {
   );
 }
 
+
 const makeStyles = (colors) => StyleSheet.create({
   bg: { flex: 1, backgroundColor: colors.bg },
   heading: { fontSize: 22, fontWeight: '800', color: colors.text, marginBottom: 8 },

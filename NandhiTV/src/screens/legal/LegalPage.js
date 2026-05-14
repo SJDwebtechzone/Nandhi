@@ -9,8 +9,14 @@ import KolamDivider from '../../components/KolamDivider';
  * `sections` is an array of { heading: string, body: string | string[] }.
  * Bullet items can be inserted by passing an array of strings as body.
  */
-export default function LegalPage({ icon, title, tagline, lastUpdated, sections }) {
-  const { colors } = useTheme();
+export default function LegalPage({
+  icon,
+  title,
+  tagline,
+  description,
+  lastUpdated,
+  sections,
+}) {  const { colors } = useTheme();
   const styles = useMemo(() => makeStyles(colors), [colors]);
 
   return (
@@ -21,10 +27,18 @@ export default function LegalPage({ icon, title, tagline, lastUpdated, sections 
           <Icon name={icon || 'file-document-outline'} size={28} color={colors.saffronDark} />
         </View>
         <Text style={styles.title}>{title}</Text>
-        {!!tagline && <Text style={styles.tagline}>{tagline}</Text>}
-        {!!lastUpdated && (
-          <Text style={styles.meta}>Last updated: {lastUpdated}</Text>
-        )}
+
+{!!tagline && (
+  <Text style={styles.tagline}>{tagline}</Text>
+)}
+
+{!!description && (
+  <Text style={styles.description}>{description}</Text>
+)}
+
+{!!lastUpdated && (
+  <Text style={styles.meta}>Last updated: {lastUpdated}</Text>
+)}
       </View>
 
       <KolamDivider />
@@ -53,7 +67,7 @@ export default function LegalPage({ icon, title, tagline, lastUpdated, sections 
           </Text>
           <Text style={styles.footerMuted}>
             For questions, write to{' '}
-            <Text style={styles.email}>support@nandhitv.com</Text>
+            <Text style={styles.email}>nandhihari@nandhitv.com</Text>
           </Text>
         </View>
       </View>
@@ -90,6 +104,14 @@ const makeStyles = (colors) => StyleSheet.create({
     color: colors.textMuted, textAlign: 'center',
     letterSpacing: 0.3,
   },
+  description: {
+  marginTop: 10,
+  fontSize: 13,
+  lineHeight: 22,
+  color: colors.textMuted,
+  textAlign: 'center',
+  paddingHorizontal: 8,
+},
   meta: {
     marginTop: 8,
     fontSize: 11, fontWeight: '700',

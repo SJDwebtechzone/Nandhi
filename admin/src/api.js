@@ -32,7 +32,8 @@ api.interceptors.response.use(
     if (err.response?.status === 401) {
       clearToken();
       if (!window.location.pathname.endsWith('/login')) {
-        window.location.href = '/login';
+        // import.meta.env.BASE_URL is '/admin/' in production, '/' in dev
+        window.location.href = `${import.meta.env.BASE_URL}login`;
       }
     }
     return Promise.reject(err);

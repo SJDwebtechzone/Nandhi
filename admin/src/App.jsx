@@ -36,7 +36,7 @@ function Shell({ children }) {
         <NavLink to="/donations">        Donations</NavLink>
         <NavLink to="/about">            About</NavLink>
         <button
-          onClick={() => { clearToken(); window.location.href = '/login'; }}
+          onClick={() => { clearToken(); window.location.href = `${import.meta.env.BASE_URL}login`; }}
           style={{
             marginTop: 'auto', background: 'transparent', border: '1px solid rgba(255,255,255,0.4)',
             color: 'white', borderRadius: 6, padding: '8px 14px', fontWeight: 600,

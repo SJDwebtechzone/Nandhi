@@ -123,7 +123,12 @@ export default function HomeScreen({ navigation }) {
       <Icon name={greeting.icon} size={22} color={colors.gold} />
       <Text style={styles.greetText}>  {greeting.time}</Text>
     </View>
-<Text style={styles.brand}>Nandhi TV<Text style={{ fontSize: 30, lineHeight: 30, verticalAlign: 'top' }}>™</Text></Text>  
+<View style={styles.brandRow}>
+    <Text style={styles.brand}>Nandhi TV</Text>
+    <View style={styles.tmCircle}>
+      <Text style={styles.tmText}>TM</Text>
+    </View>
+  </View>
   <Text style={styles.org}>A unit of Nandhi Cultural & Charitable Foundation (Regd)</Text>
     <Text style={styles.tagline}>Temples. Tradition. Devotion.</Text>
   </View>
@@ -351,12 +356,34 @@ greetBlock: {
 },
   greetRow: { flexDirection: 'row', alignItems: 'center' },
   greetText: { fontSize: 13, color: colors.textMuted, fontWeight: '600' },
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginTop: 6,
+  },
   brand: {
-    fontSize: 24,
+    fontSize: 25,
     color: colors.saffronDark,
     fontWeight: '800',
-    marginTop: 6,
     letterSpacing: 1,
+  },
+  tmCircle: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    borderWidth: 1.2,
+    borderColor: colors.saffronDark,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 4,
+    marginTop: 2,
+  },
+  tmText: {
+    fontSize: 8,
+    fontWeight: '800',
+    color: colors.saffronDark,
+    letterSpacing: 0.3,
+    lineHeight: 9,
   },
   // content highlights
 highlightSection: {

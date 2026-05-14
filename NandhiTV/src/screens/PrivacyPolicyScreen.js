@@ -6,72 +6,121 @@ export default function PrivacyPolicyScreen() {
     <LegalPage
       icon="shield-lock-outline"
       title="Privacy Policy"
-      tagline="How Nandhi TV handles your information"
-      lastUpdated="April 2026"
+      tagline="How NANDHI TV protects and handles your information"
+      lastUpdated="08 May 2026"
+      description="Welcome to NANDHI TV, a digital media and internet television platform operated by Nandhi Cultural & Charitable Foundation, Chennai, India. We value the privacy of our viewers, subscribers, volunteers, artists, members, and website/app users. This Privacy Policy explains how we collect, use, store, and protect your information in accordance with applicable Indian laws, including the Information Technology Act, 2000 and relevant data protection guidelines."
       sections={[
         {
-          heading: '1. Introduction',
-          body:
-            'Nandhi Cultural & Charitable Foundation ("we", "us", "our") operates the Nandhi TV mobile application and related services (the "Service"). We are committed to protecting your privacy and handling your personal information responsibly. This policy explains what we collect, why we collect it, and how we use and safeguard it.',
-        },
-        {
-          heading: '2. Information We Collect',
+          heading: '1. Information We Collect',
           body: [
-            'Account information: name, mobile number, email address and city, provided during sign-up or profile setup.',
-            'Authentication data: a secure session token tied to your device after phone-number verification.',
-            'Donation information: amount, date, payment reference, and receipt details (processed by our payment partner).',
-            'Usage information: videos watched, sections visited, device model and operating system, used to improve the app.',
-            'Notifications: device push tokens (optional) used to deliver event and darshan alerts.',
+            'Personal Information',
+            'Name',
+            'Mobile number',
+            'Email address',
+            'City / State',
+            'Address (if voluntarily provided)',
+            'Profile photographs or media submissions',
+            'Payment or donation details (where applicable)',
+            'Technical Information',
+            'Device information',
+            'IP address',
+            'Browser type',
+            'App usage statistics',
+            'Cookies and analytics data',
+            'User Submitted Content',
+            'Videos',
+            'Photos',
+            'Comments',
+            'Talent registration details',
+            'Volunteer or freelancer applications',
           ],
         },
         {
-          heading: '3. How We Use Your Information',
+          heading: '2. Purpose of Collecting Information',
           body: [
-            'Create and maintain your account and personalise your experience.',
-            'Issue donation acknowledgements and, where applicable, 80G tax receipts.',
-            'Send service-related notifications such as live aarti alerts, event reminders and announcements.',
-            'Improve app reliability, content relevance and security.',
-            'Comply with applicable legal and regulatory requirements.',
+            'Providing access to NANDHI TV services',
+            'Subscriber management',
+            'Artist and volunteer registrations',
+            'Event updates and announcements',
+            'Cultural and devotional programme communication',
+            'Improving website/app performance',
+            'Customer support',
+            'Legal compliance',
+            'Sending notifications related to programmes, awareness activities, social initiatives, and media content',
           ],
         },
         {
-          heading: '4. Sharing & Disclosure',
-          body:
-            'We do not sell your personal information. We share it only with trusted partners who help us run the Service — for example, payment gateways for donations, cloud hosting providers, and analytics tools — and only to the extent necessary. We may disclose information if required by law or to protect the rights and safety of our users and the Foundation.',
-        },
-        {
-          heading: '5. Data Retention',
-          body:
-            'We retain account and donation information for as long as your account is active and for the period required under applicable tax and accounting laws. You can request deletion of your account from the Profile screen at any time.',
-        },
-        {
-          heading: '6. Security',
-          body:
-            'We use industry-standard safeguards including encrypted connections (HTTPS), secure token-based authentication and restricted server access. No system is perfectly secure, but we continually work to protect your information.',
-        },
-        {
-          heading: '7. Your Rights',
+          heading: '3. Data Protection',
           body: [
-            'Access and review the personal information stored in your profile.',
-            'Update or correct your profile details at any time.',
-            'Request deletion of your account and associated personal data.',
-            'Opt out of non-essential notifications from device settings.',
+            'NANDHI TV takes reasonable security measures to protect user information from unauthorized access, misuse, loss, disclosure, and alteration.',
+            'However, while we strive to protect your information, no online platform can guarantee 100% security.',
           ],
         },
         {
-          heading: '8. Children',
-          body:
-            'Nandhi TV is a cultural & heritage platform intended for general audiences. We do not knowingly collect personal information from children under 13. If you believe a child has provided us information, please contact us and we will remove it.',
+          heading: '4. Sharing of Information',
+          body: [
+            'We do not sell or rent personal information to third parties.',
+            'Information may be shared only when required by Indian law.',
+            'For government or legal compliance.',
+            'With trusted technical service providers supporting our operations.',
+            'With user consent.',
+          ],
         },
         {
-          heading: '9. Changes to This Policy',
-          body:
-            'We may update this Privacy Policy from time to time. Material changes will be announced within the app. Your continued use of the Service after the changes take effect constitutes acceptance of the updated policy.',
+          heading: '5. Cookies & Analytics',
+          body: [
+            'Our website or app may use cookies and analytics tools to improve user experience.',
+            'Understand audience preferences.',
+            'Monitor platform performance.',
+            'Users may disable cookies through browser settings if preferred.',
+          ],
         },
         {
-          heading: '10. Contact Us',
+          heading: '6. Children’s Privacy',
           body:
-            'For any privacy-related questions or requests, write to us at nandhihari@nandhitv.com.',
+            'NANDHI TV does not knowingly collect personal information from children without parental or guardian consent where required.',
+        },
+        {
+          heading: '7. Third-Party Links',
+          body:
+            'Our platform may contain links to third-party websites, social media pages, YouTube channels, or payment gateways. NANDHI TV is not responsible for the privacy practices of such external platforms.',
+        },
+        {
+          heading: '8. User Rights',
+          body: [
+            'Users may request correction of personal information.',
+            'Request deletion of voluntarily submitted information.',
+            'Opt out of promotional communication.',
+            'Requests may be sent to the contact details below.',
+          ],
+        },
+        {
+          heading: '9. Intellectual Property',
+          body:
+            'Videos, logos, programme content, graphics, articles, and media published on NANDHI TV are the intellectual property of NANDHI TV or respective content owners and shall not be copied or reproduced without permission.',
+        },
+        {
+          heading: '10. Policy Updates',
+          body:
+            'NANDHI TV reserves the right to modify or update this Privacy Policy at any time. Updated versions will be published on the official platform.',
+        },
+        {
+          heading: '11. Contact Information',
+          body: [
+            'NANDHI TV',
+            'Under: Nandhi Cultural & Charitable Foundation',
+            'No. 4, 2/2, Vembuliamman Koil Street',
+            'K.K. Nagar West',
+            'Chennai – 600078, Tamil Nadu, India',
+            'Website: www.nandhi.co.in',
+            'Email: info@nandhi.co.in',
+            'Phone: +91 94440 92722',
+          ],
+        },
+        {
+          heading: 'Agreement',
+          body:
+            'By using NANDHI TV website, app, or media services, users agree to this Privacy Policy.',
         },
       ]}
     />

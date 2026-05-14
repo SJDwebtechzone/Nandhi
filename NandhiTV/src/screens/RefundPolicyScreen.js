@@ -31,7 +31,7 @@ export default function RefundPolicyScreen() {
         {
           heading: '4. How to Request a Refund',
           body: [
-            'Email us at support@nandhitv.com within 7 days of the transaction.',
+            'Email us at nandhihari@nandhitv.com within 7 days of the transaction.',
             'Include the transaction reference or UTR, the registered mobile number, the date of payment and the reason for your request.',
             'Attach a screenshot of your bank / UPI statement where possible.',
           ],
@@ -64,7 +64,7 @@ export default function RefundPolicyScreen() {
         {
           heading: '10. Contact',
           body:
-            'For all refund or donation-related queries, please write to support@nandhitv.com. Our team will be glad to assist you.',
+            'For all refund or donation-related queries, please write to nandhihari@nandhitv.com. Our team will be glad to assist you.',
         },
       ]}
     />
