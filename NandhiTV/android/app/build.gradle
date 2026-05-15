@@ -84,7 +84,7 @@ android {
         applicationId "in.devspectra"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 6
         versionName "1.1"
     }
  signingConfigs {

@@ -28,8 +28,8 @@ export default function ProfileSetupScreen({ navigation }) {
     setLoading(true);
     try {
       await updateProfile({ name: name.trim(), email: email.trim() || null });
-      // Navigator will automatically drop ProfileSetup from stack since
-      // profile_complete is now true.
+      // updateProfile sets profile_complete=true → RootNavigator re-renders
+      // and replaces this screen with the main Tabs stack automatically.
     } catch (e) {
       Alert.alert('Could not save', e?.response?.data?.error || e?.message || 'Please try again.');
     } finally {
@@ -38,14 +38,19 @@ export default function ProfileSetupScreen({ navigation }) {
   };
 
   const onSkip = async () => {
-    // Let them into the app with just the phone — we already have their number.
-    // They can fill this in later from settings.
-    if (!name.trim()) {
-      try {
-        setLoading(true);
-        await updateProfile({ name: 'Guest', email: null });
-      } catch (e) { /* ignore */ }
-      finally { setLoading(false); }
+    // Let them into the app without forcing details. We still PUT to the
+    // profile endpoint (with whatever they typed, or "Guest" if empty) so
+    // profile_complete flips to TRUE and the navigator drops this screen.
+    setLoading(true);
+    try {
+      await updateProfile({
+        name:  name.trim()  || 'Guest',
+        email: email.trim() || null,
+      });
+    } catch (e) {
+      Alert.alert('Could not continue', e?.response?.data?.error || e?.message || 'Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 

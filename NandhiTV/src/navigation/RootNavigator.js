@@ -51,8 +51,12 @@ export default function RootNavigator() {
     );
   }
 
-  // Signed in but profile incomplete (first time) → Profile setup
-  if (isLoggedIn && user && !user.profile_complete && !user.name) {
+  // Signed in but profile incomplete (first time) → Profile setup.
+  // Source of truth is the profile_complete column on the user row; both the
+  // "Continue" save and the "Skip" button flip it to TRUE via /auth/profile,
+  // which causes this gate to fail on the next render and the main Tabs stack
+  // to take over.
+  if (isLoggedIn && user && !user.profile_complete) {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} />
