@@ -166,6 +166,7 @@ const PrivacyPolicy = () => {
           pages, YouTube channels, or payment gateways. NANDHI TV is not
           responsible for the privacy practices of such external platforms.
         </p>
+        <p>Our services may use trusted third-party providers such as Firebase and Twilio for authentication, notifications, analytics, and communication services.</p>
       </section>
 
       <section className="mb-8">
