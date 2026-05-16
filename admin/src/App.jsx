@@ -14,6 +14,7 @@ import NotificationsPage from './pages/NotificationsPage.jsx';
 import DonationsPage from './pages/DonationsPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import DeleteAccount from './pages/DeleteAccount';
 
 
 function RequireAuth({ children }) {
@@ -57,6 +58,7 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/delete-account" element={<DeleteAccount />} />
       <Route
         path="/*"
         element={
