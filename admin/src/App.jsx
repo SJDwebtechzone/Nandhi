@@ -13,6 +13,8 @@ import AnnouncementsPage from './pages/AnnouncementsPage.jsx';
 import NotificationsPage from './pages/NotificationsPage.jsx';
 import DonationsPage from './pages/DonationsPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+
 
 function RequireAuth({ children }) {
   const loc = useLocation();
@@ -25,7 +27,7 @@ function Shell({ children }) {
     <div className="app">
       <aside className="sidebar">
         <h1>Nandhi TV</h1>
-        <NavLink to="/"               end>Dashboard</NavLink>
+        <NavLink to="/" end>Dashboard</NavLink>
         <NavLink to="/videos">           Videos</NavLink>
         <NavLink to="/live">             Live</NavLink>
         <NavLink to="/banners">          Banners</NavLink>
@@ -54,23 +56,24 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route
         path="/*"
         element={
           <RequireAuth>
             <Shell>
               <Routes>
-                <Route path="/"               element={<Dashboard />} />
-                <Route path="/videos"         element={<VideosPage />} />
-                <Route path="/live"           element={<LivePage />} />
-                <Route path="/banners"        element={<BannersPage />} />
-                <Route path="/temples"        element={<TemplesPage />} />
-                <Route path="/events"         element={<EventsPage />} />
-                <Route path="/announcements"  element={<AnnouncementsPage />} />
-                <Route path="/notifications"  element={<NotificationsPage />} />
-                <Route path="/donations"      element={<DonationsPage />} />
-                <Route path="/about"          element={<AboutPage />} />
-                <Route path="*"               element={<Navigate to="/" replace />} />
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/videos" element={<VideosPage />} />
+                <Route path="/live" element={<LivePage />} />
+                <Route path="/banners" element={<BannersPage />} />
+                <Route path="/temples" element={<TemplesPage />} />
+                <Route path="/events" element={<EventsPage />} />
+                <Route path="/announcements" element={<AnnouncementsPage />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
+                <Route path="/donations" element={<DonationsPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Shell>
           </RequireAuth>
